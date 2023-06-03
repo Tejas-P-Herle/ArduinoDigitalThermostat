@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include "DHT11.hpp"
+#include "DHT22.hpp"
 #include "UserInterface.hpp"
 
 
@@ -8,7 +8,7 @@ const int fanPin = 9;
 const int heaterPin = 10;
 
 
-DHT11 tempSensor(sensorPin);
+DHT22 tempSensor(sensorPin);
 TemperatureController tempController(fanPin, heaterPin);
 UserInterface userInterface;
 
@@ -24,11 +24,11 @@ void loop() {
   
   // Read temperature from sensor and handle error
   int readError;
-  if (!(readError = tempSensor.read())) {
+  if ((readError = tempSensor.read())) {
     Serial.print("Temp Read Error: ");
     switch (readError) {
-      case tempSensor.TEMP_ERROR_CHECKSUM: Serial.println("CheckSum Error");
-      case tempSensor.TEMP_ERROR_TIMEOUT: Serial.println("Timeout Error");
+      case tempSensor.TEMP_ERROR_CHECKSUM: Serial.println("CheckSum Error"); break;
+      case tempSensor.TEMP_ERROR_TIMEOUT: Serial.println("Timeout Error"); break;
       default: Serial.println("Unknown Error");
     }
   }

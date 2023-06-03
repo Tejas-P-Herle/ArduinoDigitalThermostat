@@ -1,9 +1,12 @@
 #include <Arduino.h>
+#include <stdlib.h>
+#include <string.h>
 #include "UserInterface.hpp"
 
 
 typedef void (UserInterface::*uiMethod) (void *obj);
 
+char *ftostr(float num, int maxDigits, int decimals);
 void increaseTempObj(void *obj);
 void decreaseTempObj(void *obj);
 
@@ -52,7 +55,7 @@ void UserInterface::show(TemperatureSensor tempSensor, TemperatureController tem
   switch (screenNo) {
     case 1: sprintf(line, "FAN:%s", fanState.c_str()); break;  // Show fan state when screen is 2
     case 2: sprintf(line, "HEATER:%s", heaterState.c_str()); break;  // Show heater state when screen is 3
-    default: sprintf(line, "Temp:%3dC", tempSensor.get());  // Show temperature when screen is 1
+    default: sprintf(line, "Temp:%sC", ftostr(tempSensor.get(), 5, 1));  // Show temperature when screen is 1
   }
   
   // Clear second Line
@@ -80,4 +83,11 @@ void decreaseTempObj(void *obj) {
   // A wrapper function over decreaseTemp which can be called with object reference
   UserInterface *uiObj = (UserInterface *)obj;
   uiObj->decreaseTemp();
+}
+
+char *ftostr(float num, int maxDigits, int decimals) {
+  char str[100];
+
+  dtostrf(num, maxDigits, decimals, str);
+  return str;
 }

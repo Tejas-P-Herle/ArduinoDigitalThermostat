@@ -7,7 +7,7 @@ TemperatureSensor::TemperatureSensor(int pin) {
   sensorPin = pin;
 }
 
-int TemperatureSensor::get() {
+float TemperatureSensor::get() {
   // getter for temperature
   return temperature;
 }

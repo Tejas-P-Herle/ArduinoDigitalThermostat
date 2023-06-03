@@ -8,10 +8,10 @@ class TemperatureSensor {
 
     enum ReadState { TEMP_READ_OK, TEMP_ERROR_CHECKSUM, TEMP_ERROR_TIMEOUT };
 
-    int get();
+    float get();
     virtual ReadState read() { return TEMP_ERROR_TIMEOUT; };
   protected:
-    int temperature;
+    float temperature;
     int sensorPin;
 };
 
